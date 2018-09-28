@@ -26,6 +26,12 @@
   <script type="text/javascript">
     'use strict';
     function supportsLocalStorage() {
+      try{
+        return 'localStorage' in window && window['localStorage'] !== null ;
+      }
+      catch(e){
+        return false ;
+      } 
     }
 
     function getRecentSearches() {
@@ -50,29 +56,31 @@
     }
 
     window.onload = function() {
-      var searchForm = document.getElementById('searchForm');
-      var searchBar = document.getElementById('searchBar');
-      var recentSearchList = document.getElementById('recentSearchList');
-      var clearButton = document.getElementById('clearStorage');
+      if(supportsLocalStorage()){
+        var searchForm = document.getElementById('searchForm');
+        var searchBar = document.getElementById('searchBar');
+        var recentSearchList = document.getElementById('recentSearchList');
+        var clearButton = document.getElementById('clearStorage');
 
-      // Initialize display list
-      var recentSearches = getRecentSearches();
-      recentSearches.forEach(function(searchString) {
-        appendListItem(recentSearchList,searchString);
-      });
+        // Initialize display list
+        var recentSearches = getRecentSearches();
+        recentSearches.forEach(function(searchString) {
+          appendListItem(recentSearchList,searchString);
+        });
 
-      // Set event handlers
-      searchForm.addEventListener('submit', function(event) {
-        var searchString = searchBar.value;
-        if (saveSearchString(searchString)) {
-          appendListItem(recentSearchList, searchString);
-        }
-      });
+        // Set event handlers
+        searchForm.addEventListener('submit', function(event) {
+          var searchString = searchBar.value;
+          if (saveSearchString(searchString)) {
+            appendListItem(recentSearchList, searchString);
+          }
+        });
 
-      clearButton.addEventListener('click', function(event) {
-        removeSearches();
-        clearList(recentSearchList);
-      });
+        clearButton.addEventListener('click', function(event) {
+          removeSearches();
+          clearList(recentSearchList);
+        });
+      }
     };
   </script>
 </body>
