@@ -3,7 +3,7 @@
 A simple project testing the browser local storage. 
 
 ## TO DO
-* Validation
+*[] Validation
     * Validate input from user. 
 * Eliminate redundant information. 
 
